@@ -556,6 +556,20 @@ suite('Options array with array items', function (s) {
         }
     }));
 
+    s.test('selects the right number item (options:  [[number, \'text\']])', sync(function (t) {
+        view = new SelectView({
+            autoRender: true,
+            name: 'number',
+            options: arrNum,
+            value: 0
+        });
+
+        var select = view.el.querySelector('select');
+
+        view.setValue(1.5);
+        t.equal(select.options[select.selectedIndex].value, '1.5');
+    }));
+
     s.test('renders a disabled item if a third value is passed which is truthy', sync(function (t) {
         view = new SelectView({
             autoRender: true,
