@@ -351,7 +351,7 @@ module.exports = View.extend({
      * @return {*} string, array, state, or model
      */
     getOptionByValue: function(value) {
-        var model;
+        var model, i;
         if (this.options.isCollection) {
             // find value in collection, error if no model found
             if (this.options.indexOf(value) === -1) model = this.getModelForId(value);
@@ -359,18 +359,17 @@ module.exports = View.extend({
             if (!model) throw new Error('model or model idAttribute not found in options collection');
             return this.yieldModel ? model : model[this.idAttribute];
         } else if (Array.isArray(this.options)) {
-            var i = this.options.length - 1;
-            if (i >= 0) {
+            if (this.options.length > 0) {
                 // find value in collection as [['val','text'], ...]
                 if (Array.isArray(this.options[0])) {
-                    for (i; i >= 0; i--) {
+                    for (i = this.options.length - 1; i >= 0; i--) {
                         if (this.options[i][0] == value) {
                             return this.options[i][0];
                         }
                     }
                 // find value in collection as ['val', ...]
                 } else {
-                    for (i; i >= 0; i--) {
+                    for (i = this.options.length - 1; i >= 0; i--) {
                         if (this.options[i] == value) {
                             return this.options[i];
                         }
