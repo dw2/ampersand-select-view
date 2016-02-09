@@ -359,15 +359,21 @@ module.exports = View.extend({
             if (!model) throw new Error('model or model idAttribute not found in options collection');
             return this.yieldModel ? model : model[this.idAttribute];
         } else if (Array.isArray(this.options)) {
-            if (this.options.length) {
-                for (var i = this.options.length - 1; i >= 0; i--) {
-                    var option = this.options[i];
-                    // find value in collection as [['val','text'], ...]
-                    if (Array.isArray(option) && option[0] == value) {
-                        return option[0];
-                    // find value in collection as ['val', ...]
-                    } else if (option == value) {
-                        return option;
+            var i = this.options.length - 1;
+            if (i >= 0) {
+                // find value in collection as [['val','text'], ...]
+                if (Array.isArray(this.options[0])) {
+                    for (i; i >= 0; i--) {
+                        if (this.options[i][0] == value) {
+                            return this.options[i][0];
+                        }
+                    }
+                // find value in collection as ['val', ...]
+                } else {
+                    for (i; i >= 0; i--) {
+                        if (this.options[i] == value) {
+                            return this.options[i];
+                        }
                     }
                 }
             } else {
